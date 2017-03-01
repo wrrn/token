@@ -36,11 +36,15 @@ func TestVerifyToken(t *testing.T) {
 	}
 
 	for testName, test := range tests {
-		req := httptest.NewRequest("POST", "/", nil)
+		req, err := http.NewRequest("POST", "/", nil)
+		if err != nil {
+			t.Errorf("Unexpected Error generating request: %v", err)
+			continue
+		}
 		req.SetBasicAuth(token, "")
 		resp := okOnSuccess(test.validator, req)
-		if resp.StatusCode != test.statusCode {
-			t.Errorf("%s failed: Status Codes did not match.\n  Expected: %d, Got: %d", testName, test.statusCode, resp.StatusCode)
+		if resp.Code != test.statusCode {
+			t.Errorf("%s failed: Status Codes did not match.\n  Expected: %d, Got: %d", testName, test.statusCode, resp.Code)
 		}
 
 	}
@@ -69,16 +73,21 @@ func VerifyTokenEmptyHeader(t *testing.T) {
 	}
 
 	for testName, test := range tests {
-		resp := okOnSuccess(test.validator, httptest.NewRequest("POST", "/", nil))
-		if resp.StatusCode != test.statusCode {
-			t.Errorf("%s failed: Status Codes did not match.\n  Expected: %d, Got: %d", testName, test.statusCode, resp.StatusCode)
+		req, err := http.NewRequest("POST", "/", nil)
+		if err != nil {
+			t.Errorf("Unexpected Error generating request: %v", err)
+			continue
+		}
+		resp := okOnSuccess(test.validator, req)
+		if resp.Code != test.statusCode {
+			t.Errorf("%s failed: Status Codes did not match.\n  Expected: %d, Got: %d", testName, test.statusCode, resp.Code)
 		}
 
 	}
 
 }
 
-func okOnSuccess(validator TokenValidator, req *http.Request) *http.Response {
+func okOnSuccess(validator TokenValidator, req *http.Request) *httptest.ResponseRecorder {
 	var (
 		basicHandler http.HandlerFunc = func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusOK)
@@ -91,5 +100,5 @@ func okOnSuccess(validator TokenValidator, req *http.Request) *http.Response {
 	)
 
 	handler.ServeHTTP(w, req)
-	return w.Result()
+	return w
 }
