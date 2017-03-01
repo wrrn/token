@@ -1,3 +1,5 @@
+// Package token provides an http middleware for http basic auth token
+// validation.
 package token
 
 import "net/http"
