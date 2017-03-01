@@ -7,7 +7,9 @@
 
 Token is a simple middleware that reads a token from the basic auth header. It assumes that the token is stored in the user name field.
 
-## Example
+## Usage
+
+The key function to the tokens package is ```VerifyTokens()```. ```VerifyTokens()``` takes anything that implements ```TokenValidator```. 
 ```go
 	var (
 		validator = ValidatorFunc(func(token string) bool {
@@ -23,5 +25,14 @@ Token is a simple middleware that reads a token from the basic auth header. It a
 
 	log.Fatal(http.ListenAndServe(":8080", verifiedHandler))
 ```
+
+### ValidatorFunc
+ Use a function as the TokenValidator by casting a function to the appropriate signature.
+
+```go
+ VerifyTokens(func(token string) bool {
+     return token == "SECRET"
+ }, handler)
+ ```
 
 
