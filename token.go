@@ -1,14 +1,6 @@
 package token
 
-import (
-	"errors"
-	"net/http"
-)
-
-var (
-	InvalidTokenErr = errors.New("Invalid Token")
-	MissingTokenErr = errors.New("Token missing from request")
-)
+import "net/http"
 
 // VerifyTokens will return a handler that will verify that a session
 // exists before allowing the handler in the arugment to be called.
