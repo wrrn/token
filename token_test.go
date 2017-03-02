@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestVerifyToken(t *testing.T) {
+func TestValidateTokens(t *testing.T) {
 	token := "SECRET"
 
 	tests := map[string]struct {
@@ -51,7 +51,7 @@ func TestVerifyToken(t *testing.T) {
 
 }
 
-func VerifyTokenEmptyHeader(t *testing.T) {
+func TestValidateTokensEmptyHeader(t *testing.T) {
 
 	tests := map[string]struct {
 		validator  TokenValidator
@@ -95,7 +95,7 @@ func okOnSuccess(validator TokenValidator, req *http.Request) *httptest.Response
 			return
 		}
 
-		handler = VerifyTokens(validator, basicHandler)
+		handler = ValidateTokens(validator, basicHandler)
 		w       = httptest.NewRecorder()
 	)
 

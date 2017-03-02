@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func ExampleVerifyTokens() {
+func ExampleValidateTokens() {
 	var (
 		validator = ValidatorFunc(func(token string) bool {
 			return token == "SECRET"
@@ -16,8 +16,7 @@ func ExampleVerifyTokens() {
 	)
 
 	// Verifies token == "SECRET" before calling to handler
-	verifiedHandler := VerifyTokens(validator, handler)
+	validatedHandler := ValidateTokens(validator, handler)
 
-	log.Fatal(http.ListenAndServe(":8080", verifiedHandler))
-
+	log.Fatal(http.ListenAndServe(":8080", validatedHandler))
 }

@@ -4,10 +4,10 @@ package token
 
 import "net/http"
 
-// VerifyTokens will return a handler that will verify that a session
+// ValidateTokens will return a handler that will verify that a session
 // exists before allowing the handler in the arugment to be called.
 // If the TokenValidator returns false it responds with a 401 code.
-func VerifyTokens(v TokenValidator, h http.Handler) http.Handler {
+func ValidateTokens(v TokenValidator, h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if token := getToken(r); !v.ValidToken(token) {
 			Unauthorized(w)

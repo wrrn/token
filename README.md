@@ -9,7 +9,7 @@ Token is a simple middleware that reads a token from the basic auth header. It a
 
 ## Usage
 
-The key function to the tokens package is ```VerifyTokens()```. ```VerifyTokens()``` takes anything that implements ```TokenValidator```. 
+The key function to the tokens package is ```ValidateTokens()```. ```ValidateTokens()``` takes anything that implements ```TokenValidator```. 
 ```go
 	var (
 		validator = ValidatorFunc(func(token string) bool {
@@ -21,9 +21,9 @@ The key function to the tokens package is ```VerifyTokens()```. ```VerifyTokens(
 	)
 
 	// Verifies token == "SECRET" before calling to handler
-	verifiedHandler := VerifyTokens(validator, handler)
+	validatedHandler := ValidateTokens(validator, handler)
 
-	log.Fatal(http.ListenAndServe(":8080", verifiedHandler))
+	log.Fatal(http.ListenAndServe(":8080", validatedHandler))
 ```
 
 ### ValidatorFunc
