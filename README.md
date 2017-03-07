@@ -30,7 +30,7 @@ The key function to the tokens package is ```ValidateTokens()```. ```ValidateTok
  Use a function as the TokenValidator by casting a function to the appropriate signature.
 
 ```go
- VerifyTokens(func(token string) bool {
+ ValidateTokens(func(token string) bool {
      return token == "SECRET"
  }, handler)
  ```
